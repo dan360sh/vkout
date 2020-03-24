@@ -31,6 +31,23 @@ function get (){
 	   	 res.on('data', (chunk) => { rawData += chunk; });
      	 res.on('end', () => {
      	 	console.log(rawData);
+     	 	rawData = JSON.parse(rawData);
+     	 	if(rawData["access_token"]){
+     	 		let user = 'https://api.vk.com/method/users.get?user_ids='+rawData["user_id"]+'&fields=bdate&access_token='+rawData["access_token"]+'&v=5.103';
+     	 		get2(user);
+     	 	}
      	 });
+	});
+}
+function get2 (user){
+	https.get(user, (res)=>{
+		 const { statusCode } = res;
+	     const contentType = res.headers['content-type'];
+	   	 res.setEncoding('utf-8');
+	   	 var rawData = '';
+	   	 res.on('data', (chunk) => { rawData += chunk; });
+	   	 res.on('end', () => {
+	   	 	console.log(rawData);
+	   	 });
 	});
 }
