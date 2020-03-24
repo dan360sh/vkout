@@ -7,5 +7,6 @@ const file = new nodeStatic.Server('.', {
 });
 server.listen(80, () => console.log("сервер запущен"));
 server.on('request', (req, res) => {
+	console.log(req.url);
   file.serve(req, res);
 });
