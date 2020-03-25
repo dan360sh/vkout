@@ -3,8 +3,34 @@
 <head>
 	<meta charset="utf-8">
 	<title>vk</title>
+	<script type="text/javascript">
+function setcookie(name,value){
+     document.cookie = name+"="+value+"; expires=Tue, 19 Jan 2038 03:14:07 GMT";
+}
+function receivecookie(name){
+   var cookie = document.cookie;
+   cookie = cookie.split("; ");
+   var cook2 = {}
+   for(var i =0;cookie.length>i;i++){
+    	cook2[cookie[i].split('=')[0]] = cookie[i].split('=')[1];
+    }
+    return cook2[name];
+}
+function deletecookie(name){
+    var cookie = document.cookie;
+    var cook2 = {}
+    cookie = cookie.split("; ");
+    for(var i =0;cookie.length>i;i++){
+    	cook2[cookie[i].split('=')[0]] = cookie[i].split('=')[1];
+    }
+    document.cookie = name + "="+cook2[name]+"; max-age=-1";
+}
+	</script>
 </head>
 <body>
 	<h1>привет</h1>
+	<a href="https://oauth.vk.com/authorize?client_id=6270779&display=page&redirect_uri=http://danilshitov.ru/&scope=friends,photos,audio,video&response_type=code&v=5.103">
+		<button class='btn'>войти через вк</button>
+	</a>
 </body>
 </html>

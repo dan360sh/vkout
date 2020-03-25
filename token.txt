@@ -1,0 +1,1 @@
+https://oauth.vk.com/authorize?client_id=6270779&display=page&redirect_uri=http://danilshitov.ru/&scope=friends,photos,audio,video&response_type=code&v=5.103
