@@ -1,6 +1,8 @@
 const server = require('http').createServer();
 const fs = require('fs');
 const https = require('https');
+const cheerio = require('cheerio');
+var mime = require('mime');
 const nodeStatic = require('node-static');
 const file = new nodeStatic.Server('.', {
   cache: 0
@@ -12,7 +14,11 @@ var client_secret = 'OZggJ070SyQVXMDaRRnJ';
 var redirect_uri = 'http://danilshitov.ru/';
 server.listen(80, () => console.log("сервер запущен"));
 server.on('request', async function(req, res){
-	console.log(req.url);
+	 if(!req.headers['cache-control']){
+	 	res.end(''); 	
+	 	return;	
+	 }
+	 console.log(req.url);
 	if(req.url.indexOf("?")!=-1){
 		var code = req.url.split('=')[1];
 		str = 'https://oauth.vk.com/access_token?client_id='+client_id+'&client_secret='+client_secret+'&redirect_uri='+redirect_uri+'&code='+code;		
