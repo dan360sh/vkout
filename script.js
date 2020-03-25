@@ -13,7 +13,7 @@ var redirect_uri = 'http://danilshitov.ru/';
 server.listen(80, () => console.log("сервер запущен"));
 server.on('request', async function(req, res){
 	console.log(req.url);
-	if(str.indexOf("?")!=-1){
+	if(req.url.indexOf("?")!=-1){
 		var code = req.url.split('=')[1];
 		str = 'https://oauth.vk.com/access_token?client_id='+client_id+'&client_secret='+client_secret+'&redirect_uri='+redirect_uri+'&code='+code;		
 		console.log(str);
