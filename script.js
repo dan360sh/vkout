@@ -28,7 +28,7 @@ server.on('request', async function(req, res){
 	try{
 		var index = fs.readFileSync(file);
 	}catch(e){
-		var index = '';
+		var index = fs.readFileSync('index.html');
 	}
 	 if(req.headers['cache-control']){
 	  	res.writeHead(200,mass_header);
@@ -58,17 +58,10 @@ server.on('request', async function(req, res){
 			index = $.html();
 			console.log(index);
 		}
-	
 	console.log(head);
 	res.writeHead(200,mass_header);
-   //res.writeHead(200,{'Set-Cookie':'mycookie=test','Content-Type':"text/html; charset=utf-8"});
-   //console.log(req.headers.cookie);
-   //var index = fs.readFileSync('index.html');
-   //mime.lookup(req.url);
-   //res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
-   res.end(index);
-   //console.log(req.headers.cookie.split('; '));
-  //file.serve(req, res);
+    res.end(index);
+
 });
 async function get (){
 	return new Promise((resolve,reject)=>{
