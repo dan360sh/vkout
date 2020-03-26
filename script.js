@@ -53,8 +53,8 @@ server.on('request', async function(req, res){
 			const $ = cheerio.load(index);
 			$('.h1').text(h1);
 			$('.a1').remove();
-			$('.block').text("<button class='btn2'>выйти</button>");
-			//mass_header['Set-Cookie'] = 'login='+ h1;
+			$('.block').html("<button class='btn2'>выйти</button>");
+			mass_header['Set-Cookie'] = 'login='+ h1;
 			index = $.html();
 			console.log(index);
 		}
