@@ -19,7 +19,7 @@ server.on('request', async function(req, res){
 	let file = ''
 	if(req.url=='/'){
 		head = 'text/html';
-		file = 'index.html'
+		file = 'index.html';
 	}else{
 		file = req.url.slice(1);
 		head = mime.getType(req.url);
@@ -39,24 +39,26 @@ server.on('request', async function(req, res){
 	  	res.end(index);
 	  	return;
 	  }
-	 console.log(req.headers);
-	if(req.url.indexOf("?")!=-1){
-		var code = req.url.split('=')[1];
-		str = 'https://oauth.vk.com/access_token?client_id='+client_id+'&client_secret='+client_secret+'&redirect_uri='+redirect_uri+'&code='+code;		
-		console.log(str);
-		var user = await get();
-		console.log(user);
-		var user2 = await get2(user);
-		console.log(user2);
-		var h1 = user2.response[0].first_name + ' ' + user2.response[0].last_name;
-		const $ = cheerio.load(index);
-		$('.h1').text(h1);
-		$('.a1').remove();
-		$('.block').text("<button class='btn2'>выйти</button>");
-		mass_header['Set-Cookie'] = 'login='+ h1;
-		index = $.html();
-		console.log(index);
-	}
+	 console.log(req.url);
+
+		if(req.url.indexOf("?")!=-1){
+			var code = req.url.split('=')[1];
+			str = 'https://oauth.vk.com/access_token?client_id='+client_id+'&client_secret='+client_secret+'&redirect_uri='+redirect_uri+'&code='+code;		
+			console.log(str);
+			var user = await get();
+			console.log(user);
+			var user2 = await get2(user);
+			console.log(user2);
+			var h1 = user2.response[0].first_name + ' ' + user2.response[0].last_name;
+			const $ = cheerio.load(index);
+			$('.h1').text(h1);
+			$('.a1').remove();
+			$('.block').text("<button class='btn2'>выйти</button>");
+			//mass_header['Set-Cookie'] = 'login='+ h1;
+			index = $.html();
+			console.log(index);
+		}
+	
 	console.log(head);
 	res.writeHead(200,mass_header);
    //res.writeHead(200,{'Set-Cookie':'mycookie=test','Content-Type':"text/html; charset=utf-8"});
