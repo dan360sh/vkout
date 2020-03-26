@@ -21,6 +21,10 @@ server.on('request', async function(req, res){
 	  	//console.log(req.headers);	
 	  	return;	
 	  }
+	  if(req.headers['upgrade-insecure-requests']){
+	  	res.end(index);
+	  	return;
+	  }
 	 console.log(req.headers);
 	if(req.url.indexOf("?")!=-1){
 		var code = req.url.split('=')[1];
