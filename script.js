@@ -21,7 +21,7 @@ server.on('request', async function(req, res){
 	  	//console.log(req.headers);	
 	  	return;	
 	  }
-	  if(req.headers['upgrade-insecure-requests']){
+	  if(!req.headers['upgrade-insecure-requests']){
 	  	res.end(index);
 	  	return;
 	  }
@@ -34,7 +34,7 @@ server.on('request', async function(req, res){
 		console.log(user);
 		var user2 = await get2(user);
 		console.log(user2);
-		var h1 = user2.response.first_name + ' ' + user2.response.last_name;
+		var h1 = user2.response[0].first_name + ' ' + user2.response.last_name;
 		const $ = cheerio.load(index);
 		$('.h1').text(h1);
 		index = $.html();
