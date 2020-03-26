@@ -14,11 +14,21 @@ var client_secret = 'OZggJ070SyQVXMDaRRnJ';
 var redirect_uri = 'http://danilshitov.ru/';
 server.listen(80, () => console.log("сервер запущен"));
 server.on('request', async function(req, res){
-	var index = fs.readFileSync('index.html');
+	let head = 'text/html';
+	let mass_header = {};
+	let file = ''
+	if(req.url=='/'){
+		head = 'text/html';
+		file = 'index.html'
+	}else{
+		file = req.url.slice(1);
+		head = mime.getType(req.url);
+	}
+	mass_header['Content-Type'] = head+"; charset=utf-8";
+	var index = fs.readFileSync(file);
 	 if(req.headers['cache-control']){
-	  	res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
+	  	res.writeHead(200,mass_header);
 	  	res.end(index);
-	  	//console.log(req.headers);	
 	  	return;	
 	  }
 	  if(!req.headers['upgrade-insecure-requests']){
@@ -34,13 +44,17 @@ server.on('request', async function(req, res){
 		console.log(user);
 		var user2 = await get2(user);
 		console.log(user2);
-		var h1 = user2.response[0].first_name + ' ' + user2.response.last_name;
+		var h1 = user2.response[0].first_name + ' ' + user2.response[0].last_name;
 		const $ = cheerio.load(index);
 		$('.h1').text(h1);
+		$('.a1').remove();
+		$('.block').text("<button class='btn2'>выйти</button>");
+		mass_header['Set-Cookie'] = 'login='+ h1;
 		index = $.html();
 		console.log(index);
 	}
-	res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
+	console.log(head);
+	res.writeHead(200,mass_header);
    //res.writeHead(200,{'Set-Cookie':'mycookie=test','Content-Type':"text/html; charset=utf-8"});
    //console.log(req.headers.cookie);
    //var index = fs.readFileSync('index.html');

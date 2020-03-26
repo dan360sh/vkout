@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>vk</title>
+	<script type="text/javascript" src='jquery-3.2.1.js'></script>
 	<script type="text/javascript">
 function setcookie(name,value){
      document.cookie = name+"="+value+"; expires=Tue, 19 Jan 2038 03:14:07 GMT";
@@ -26,11 +27,19 @@ function deletecookie(name){
     document.cookie = name + "="+cook2[name]+"; max-age=-1";
 }
 	</script>
+
 </head>
 <body>
 	<h1 class='h1'>Привет</h1>
-	<a href="https://oauth.vk.com/authorize?client_id=6270779&display=page&redirect_uri=http://danilshitov.ru/&scope=friends,photos,audio,video&response_type=code&v=5.103">
-		<button class='btn'>войти через вк</button>
-	</a>
+	<div class="block">
+		<a class='a1' href="https://oauth.vk.com/authorize?client_id=6270779&display=page&redirect_uri=http://danilshitov.ru/&scope=friends,photos,audio,video&response_type=code&v=5.103">
+			<button class='btn1'>войти через вк</button>
+		</a>
+	</div>
+	<script type="text/javascript">
+		$('.btn2').on('click',function(){
+			deletecookie('login');
+		});
+	</script>
 </body>
 </html>
