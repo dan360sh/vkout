@@ -25,7 +25,11 @@ server.on('request', async function(req, res){
 		head = mime.getType(req.url);
 	}
 	mass_header['Content-Type'] = head+"; charset=utf-8";
-	var index = fs.readFileSync(file);
+	try{
+		var index = fs.readFileSync(file);
+	}catch(e){
+		var index = '';
+	}
 	 if(req.headers['cache-control']){
 	  	res.writeHead(200,mass_header);
 	  	res.end(index);
