@@ -14,11 +14,14 @@ var client_secret = 'OZggJ070SyQVXMDaRRnJ';
 var redirect_uri = 'http://danilshitov.ru/';
 server.listen(80, () => console.log("сервер запущен"));
 server.on('request', async function(req, res){
-	 if(!req.headers['cache-control']){
-	 	res.end(''); 	
-	 	return;	
-	 }
-	 console.log(req.url);
+	var index = fs.readFileSync('index.html');
+	 if(req.headers['cache-control']){
+	  	res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
+	  	res.end(index);
+	  	//console.log(req.headers);	
+	  	return;	
+	  }
+	 console.log(req.headers);
 	if(req.url.indexOf("?")!=-1){
 		var code = req.url.split('=')[1];
 		str = 'https://oauth.vk.com/access_token?client_id='+client_id+'&client_secret='+client_secret+'&redirect_uri='+redirect_uri+'&code='+code;		
@@ -27,11 +30,15 @@ server.on('request', async function(req, res){
 		console.log(user);
 		var user2 = await get2(user);
 		console.log(user2);
-
+		var h1 = user2.response.first_name + ' ' + user2.response.last_name;
+		const $ = cheerio.load(index);
+		$('.h1').text(h1);
+		index = $.html();
 	}
-   res.writeHead(200,{'Set-Cookie':'mycookie=test','Content-Type':"text/html; charset=utf-8"});
+	res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
+   //res.writeHead(200,{'Set-Cookie':'mycookie=test','Content-Type':"text/html; charset=utf-8"});
    //console.log(req.headers.cookie);
-   var index = fs.readFileSync('index.html');
+   //var index = fs.readFileSync('index.html');
    //mime.lookup(req.url);
    //res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
    res.end(index);
