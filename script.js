@@ -38,6 +38,7 @@ server.on('request', async function(req, res){
 		const $ = cheerio.load(index);
 		$('.h1').text(h1);
 		index = $.html();
+		console.log(index);
 	}
 	res.writeHead(200,{'Content-Type':"text/html; charset=utf-8"});
    //res.writeHead(200,{'Set-Cookie':'mycookie=test','Content-Type':"text/html; charset=utf-8"});
