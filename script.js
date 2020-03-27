@@ -110,23 +110,30 @@ server.on('request', async function(req, res){
 	}catch(e){
 		var index = fs.readFileSync('index.html');
 	}
-
-	let cookie = cookie_parse(req.headers.cookie);
-	if(cookie['login']){
-		let l = await user_select(cookie['login']);
-		if(l.errno==undefined){
-			console.log('index2');
-			if(cookie['password']){
-				console.log('index1');
-				if(l[0].password==cookie['password']){
-					let p = JSON.parse(l[0].data);
-					index = parsedom(index,JSON.parse(l[0].data));
-					mass_header['Set-Cookie'] = 'login='+p.id+'; password='+p.id+5;
-					console.log('index');
+	 //mass_header['Set-Cookie'] = 'login=danil2; password=1234';
+	if(req.headers.cookie){
+		let cookie = cookie_parse(req.headers.cookie);
+		if(cookie['login']){
+			let l = await user_select(cookie['login']);
+			if(l[0]!=undefined){
+				console.log(l);
+				console.log('index2');
+				if(cookie['password']){
+					console.log('index1');
+					if(l[0].password==cookie['password']){
+						try{
+						let p = JSON.parse(l[0].data);
+						console.log(p)
+						index = parsedom(index,JSON.parse(l[0].data));
+						console.log('index');
+						}catch(e){
+							console.log('error');
+						}
+					}
 				}
 			}
-		}
-	 }
+		 }
+	}	
 	 console.log(req.headers.cookie)
 	 if(req.headers['cache-control']){
 	  	res.writeHead(200,mass_header);
@@ -153,7 +160,9 @@ server.on('request', async function(req, res){
 			$('.h1').text(h1);
 			$('.a1').remove();
 			$('.block').html("<button class='btn2'>выйти</button>");
-			mass_header['Set-Cookie'] = 'login='+user2.response[0].id+'; password='+user2.response[0]+5;
+			await user_in(user2.response[0].id,+user2.response[0].password+5,user2.response[0]);
+			mass_header['Set-Cookie'] = 'login='+user2.response[0].id+';';
+			res.writeHead(200,{'Set-Cookie':'password='+user2.response[0].password+5+';'});
 			index = $.html();
 			console.log(index);
 		}
